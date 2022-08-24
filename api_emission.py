@@ -10,7 +10,8 @@ def emission_by_year(year):
     ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
     merge_df = merge_geo_emission(ems_file)
 
-    return merge_df.to_json()
+    # return merge_df.to_json()
+    return merge_df
 
 
 def agg_by_pref(ems_file):
@@ -45,4 +46,5 @@ def agg_by_pref(ems_file):
     # df.sort_values('2')
 
     return pref_df
+
 # %%

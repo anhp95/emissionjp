@@ -12,5 +12,10 @@ CORS(app)
 @app.route('/', methods=['GET'])
 def get_emission():
     
-    year = int(request.args['year'])
-    return jsonify(emission_by_year(year))
+    # year = int(request.args['year'])
+    # return emission_by_year(year)
+    return {'hello': 'world'}
+
+if __name__ == '__main__':
+    app.run(debug=True)
+# %%
