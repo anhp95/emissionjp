@@ -1,7 +1,7 @@
 #%%
 import pandas as pd
 import geopandas as gpd
-from mypath import EMISSION_FILES, AMD2_SHP, EMISSION_GEOJSON
+from core.mypath import EMISSION_FILES, AMD2_SHP, EMISSION_GEOJSON
 
 def fix_chac_zip_code(df):
     adm_col = df["adm_code"].values
