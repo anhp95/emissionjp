@@ -2,11 +2,13 @@
 from flask import Blueprint
 from flask_restx import Api
 
-from .apis.overall_ems import api as ns1
+from .overall_ems import api_overall_ems
 
-bp = Blueprint("api", __name__)
-api = Api(bp)
+bp_ems_tracker = Blueprint("ems_tracker", __name__)
+api = Api(bp_ems_tracker, version='1.0',
+          title='Emission Tracker for Japan',
+          description='APIs for GHG emission tracking in Japan')
 
-api.add_namespace(ns1)
+api.add_namespace(api_overall_ems)
 
 # %%
