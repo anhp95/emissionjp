@@ -5,7 +5,7 @@ import pandas as pd
 from const import *
 
 
-def overall_reduction_rate(ws, commune_name):
+def overall_reduction_rate(ws, commune_name, commune_code):
 
     commune_rate_2030_index = "E8"
     commune_rate_2040_index = "E9"
@@ -16,6 +16,7 @@ def overall_reduction_rate(ws, commune_name):
     jp_rate_2050_index = "I10"
 
     return {
+        "commune_code": commune_code,
         "commune_name": commune_name,
         "commune_reduction_rate_2030": ws.Range(commune_rate_2030_index).Value,
         "commune_reduction_rate_2040": ws.Range(commune_rate_2040_index).Value,
@@ -203,7 +204,7 @@ def main():
 
         commune_name = ws.Range("F3").Value
         print(commune_name)
-        l_overall.append(overall_reduction_rate(ws, commune_name))
+        l_overall.append(overall_reduction_rate(ws, commune_name, commune_code))
         l_fig1.append(fig1_trends_energy_consumption(ws))
         l_fig2.append(fig2_trends_co2_reduction(ws))
         l_fig3.append(fig3_changes_emission_by_sector_energy_type(ws))

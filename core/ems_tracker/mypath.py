@@ -1,6 +1,7 @@
 import os
 import glob
 
+# DATA_DIR = "../../data"
 DATA_DIR = "data"
 
 AMD2_SHP = os.path.join(DATA_DIR, "shp/jp_adm2_dissolved.shp")

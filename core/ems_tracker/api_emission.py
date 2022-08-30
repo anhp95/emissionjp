@@ -1,17 +1,16 @@
 #%%
 
-from dataclasses import dataclass
 import pandas as pd
 import os
 import json
-from core.mypath import EMISSION_DIR
-from core.utils import trans_cols, merge_geo_emission
+from core.ems_tracker.utils import trans_cols, merge_geo_emission
+
 
 def emission_by_year(year):
-    ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
-    merge_df = merge_geo_emission(ems_file)
+
+    merge_df = merge_geo_emission(year)
     data = json.loads(merge_df.to_json())
-    return data["features"][0]
+    return data
 
 
 def agg_by_pref(ems_file):
@@ -46,5 +45,6 @@ def agg_by_pref(ems_file):
     # df.sort_values('2')
 
     return pref_df
+
 
 # %%

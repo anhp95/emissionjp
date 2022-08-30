@@ -1,7 +1,7 @@
 #%%
-from email.mime import base
 import pandas as pd
 import os
+import json
 
 BASE_DIR = "data/zeroemission"
 
@@ -29,15 +29,19 @@ def get_all_data():
 def get_data_by_commune_code(
     commune_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df
 ):
-
-    return {
-        # "overall": overall_df[overall_df["commune_code"] == commune_code].to_dict()[0],
-        "fig1": fig1_df[fig1_df["commune_code"] == commune_code].to_dict(),
-        "fig2": fig2_df[fig2_df["commune_code"] == commune_code].to_dict(),
-        "fig3": fig3_df[fig3_df["commune_code"] == commune_code].to_dict(),
-        "fig4": fig4_df[fig4_df["commune_code"] == commune_code].to_dict(),
-        "fig5": fig5_df[fig5_df["commune_code"] == commune_code].to_dict(),
+    fig5_df = fig5_df.fillna(0)
+    result = {
+        "overall": overall_df[overall_df["commune_code"] == commune_code].to_dict(
+            "records"
+        )[0],
+        "fig1": fig1_df[fig1_df["commune_code"] == commune_code].to_dict("records")[0],
+        "fig2": fig2_df[fig2_df["commune_code"] == commune_code].to_dict("records")[0],
+        "fig3": fig3_df[fig3_df["commune_code"] == commune_code].to_dict("records")[0],
+        "fig4": fig4_df[fig4_df["commune_code"] == commune_code].to_dict("records")[0],
+        "fig5": fig5_df[fig5_df["commune_code"] == commune_code].to_dict("records")[0],
     }
+    encodedUnicode = json.dumps(result, ensure_ascii=False)
+    return json.loads(encodedUnicode)
 
 
 # %%
