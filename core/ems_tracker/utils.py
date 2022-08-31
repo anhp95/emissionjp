@@ -68,9 +68,6 @@ def correct_df_col_to_int(ems_df):
     for col in list_cols:
         ems_df[col] = fix_comma(ems_df[col].values)
         ems_df[col] = ems_df[col].astype(int)
-    # ems_df["adm_code"] = ems_df["adm_code"].astype(int)
-    # ems_df["total"] =
-    # ems_df["total"] = ems_df["total"].astype(int)
 
     return ems_df
 
