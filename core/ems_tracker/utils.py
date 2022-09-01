@@ -72,7 +72,7 @@ def correct_df_col_to_int(ems_df):
     return ems_df
 
 
-def merge_geo_emission(year):
+def merge_geo_emission_by_city(year, adm_code):
 
     ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
     ems_df = pd.read_csv(ems_file)
@@ -80,7 +80,7 @@ def merge_geo_emission(year):
 
     geo_df = correct_shp_df()
     merged_df = geo_df.merge(ems_df, left_on="adm_code", right_on="adm_code")
-    return merged_df[merged_df["city"] == "Nagoya Shi"]
+    return merged_df[merged_df["adm_code"] == int(adm_code)]
 
 
 def merge_all_geo_emission():

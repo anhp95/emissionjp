@@ -3,12 +3,12 @@
 import pandas as pd
 import os
 import json
-from core.ems_tracker.utils import trans_cols, merge_geo_emission
+from core.ems_tracker.utils import trans_cols, merge_geo_emission_by_city
 
 
-def emission_by_year(year):
+def emission_by_year(year, adm_code):
 
-    merge_df = merge_geo_emission(year)
+    merge_df = merge_geo_emission_by_city(year, adm_code)
     data = json.loads(merge_df.to_json())
     return data
 
