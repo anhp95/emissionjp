@@ -141,7 +141,7 @@ def merge_all_geo_emission():
     list_df = []
     for ems_file in EMISSION_FILES:
         print(ems_file.split("\\")[-1].split(".")[0])
-        year = int(ems_file.split("\\")[-1].split(".")[0])
+        year = ems_file.split("\\")[-1].split(".")[0]
         ems_df = pd.read_csv(ems_file)
         ems_df = correct_df_col_to_int(ems_df)
         geo_df = correct_shp_df()
