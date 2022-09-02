@@ -5,23 +5,22 @@ import os
 import json
 from core.ems_tracker.utils import (
     trans_cols,
-    merge_geo_emission_by_city,
-    merge_emssion_by_sector,
+    merge_geo_emission_by_adm,
 )
 
 
 def emission_adm_filter(**kwargs):
     if len(kwargs) > 1:
-        merge_df = merge_geo_emission_by_city(
+        merge_df = merge_geo_emission_by_adm(
             year=kwargs["year"], adm_code=kwargs["adm_code"]
         )
         data = json.loads(merge_df.to_json())
         return data
 
-    merge_df = merge_geo_emission_by_city(year=kwargs["year"])
-    result = merge_df.to_dict("records")
-    encodedUnicode = json.dumps(result, ensure_ascii=False)
-    return json.loads(encodedUnicode)
+    merge_df = merge_geo_emission_by_adm(year=kwargs["year"])
+    # result = merge_df.to_dict("records")
+    # encodedUnicode = json.dumps(result, ensure_ascii=False)
+    return merge_df
 
 
 def agg_by_pref(ems_file):

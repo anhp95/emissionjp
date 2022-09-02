@@ -2,7 +2,7 @@
 import pandas as pd
 import geopandas as gpd
 import os
-import glob
+import numpy as np
 
 # from mypath import EMISSION_DIR, EMISSION_FILES, AMD2_SHP, EMISSION_GEOJSON
 
@@ -104,7 +104,7 @@ def correct_df_col_to_int(ems_df):
     return ems_df
 
 
-def merge_geo_emission_by_city(**kwargs):
+def merge_geo_emission_by_adm(**kwargs):
 
     year = kwargs["year"]
     ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
@@ -118,17 +118,22 @@ def merge_geo_emission_by_city(**kwargs):
         adm_code = kwargs["adm_code"]
         return merged_df[merged_df["adm_code"] == int(adm_code)]
 
-    return merged_df[
-        [
-            "city",
-            "pref",
-            "industry_total",
-            "consumer_total",
-            "transportation_total",
-            "waste",
-            "total",
-        ]
-    ]
+    else:
+        result = []
+        result.append(["Location", "Parent", "Emission"])
+        result.append(["Japan", None, 0])
+
+        df = merged_df[["city", "pref", "total"]]
+        for pref in df["pref"].values:
+            result.append([pref, "Japan", 0])
+        for i in range(len(df)):
+            arr = np.array(df.iloc[i].to_numpy()).tolist()
+            for i in range(len(arr)):
+                if isinstance(arr[i], np.int32):
+                    arr[i] = int(arr[i])
+            result.append(arr)
+
+        return result
 
 
 def merge_emssion_by_sector():
