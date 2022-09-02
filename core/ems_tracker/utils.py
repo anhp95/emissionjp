@@ -118,23 +118,22 @@ def merge_geo_emission_by_adm(**kwargs):
         adm_code = kwargs["adm_code"]
         return merged_df[merged_df["adm_code"] == int(adm_code)]
 
-    else:
-        result = []
-        result.append(["Location", "Parent", "Emission"])
-        result.append(["Japan", None, 0])
+    result = []
+    result.append(["Location", "Parent", "Emission"])
+    result.append(["Japan", None, 0])
 
-        df = merged_df[["city", "pref", "total"]]
-        for pref in df["pref"].values:
-            result.append([pref, "Japan", 0])
-        for i in range(len(df)):
-            arr = np.array(df.iloc[i].to_numpy()).tolist()
-            for i in range(len(arr)):
-                if isinstance(arr[i], np.int32):
+    df = merged_df[["city", "pref", "total"]]
+    for pref in df["pref"].values:
+        result.append([pref, "Japan", 0])
+    for i in range(len(df)):
+        arr = np.array(df.iloc[i].to_numpy()).tolist()
+        for i in range(len(arr)):
+            if isinstance(arr[i], np.int32):
 
-                    arr[i] = int(arr[i])
-            result.append(arr)
+                arr[i] = int(arr[i])
+        result.append(arr)
 
-        return result
+    return result
 
 
 def merge_emssion_by_sector():

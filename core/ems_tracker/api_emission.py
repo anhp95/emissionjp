@@ -18,7 +18,8 @@ def emission_adm_filter(**kwargs):
         return data
 
     merge_df = merge_geo_emission_by_adm(year=kwargs["year"])
-    return {"result": "merge_df"}
+    # print(merge_df)
+    return {"result": merge_df}
 
 
 def agg_by_pref(ems_file):
