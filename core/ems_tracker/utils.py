@@ -2,6 +2,7 @@
 import pandas as pd
 import geopandas as gpd
 import os
+import glob
 
 # from mypath import EMISSION_DIR, EMISSION_FILES, AMD2_SHP, EMISSION_GEOJSON
 
@@ -72,15 +73,47 @@ def correct_df_col_to_int(ems_df):
     return ems_df
 
 
-def merge_geo_emission_by_city(year, adm_code):
+def merge_geo_emission_by_city(**kwargs):
 
+    year = kwargs["year"]
     ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
     ems_df = pd.read_csv(ems_file)
     ems_df = correct_df_col_to_int(ems_df)
 
     geo_df = correct_shp_df()
     merged_df = geo_df.merge(ems_df, left_on="adm_code", right_on="adm_code")
-    return merged_df[merged_df["adm_code"] == int(adm_code)]
+
+    if len(kwargs) > 1:
+        adm_code = kwargs["adm_code"]
+        return merged_df[merged_df["adm_code"] == int(adm_code)]
+
+    return merged_df[
+        [
+            "city",
+            "pref",
+            "industry_total",
+            "consumer_total",
+            "transportation_total",
+            "waste",
+            "total",
+        ]
+    ]
+
+
+def merge_emssion_by_sector():
+    data = [
+        ["Director (Year)", "Rotten Tomatoes", "IMDB"],
+        ["Alfred Hitchcock (1935)", 8.4, 7.9],
+        ["Ralph Thomas (1959)", 6.9, 6.5],
+        ["Don Sharp (1978)", 6.5, 6.4],
+        ["James Hawes (2008)", 4.4, 6.2],
+    ]
+    return data
+
+    # list_ems_csv = glob.glob(os.path.join(EMISSION_DIR, "*.csv"))
+
+    # for ems_csv in list_ems_csv:
+    #     df = pd.read_csv(ems_csv)
 
 
 def merge_all_geo_emission():

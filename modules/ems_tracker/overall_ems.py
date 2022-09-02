@@ -1,17 +1,18 @@
 #%%
-from core.ems_tracker.api_emission import emission_by_year
+from core.ems_tracker.api_emission import emission_adm_filter
+from core.ems_tracker.utils import merge_emssion_by_sector
 from flask_restx import Namespace, Resource
 from flask import request, jsonify
 
 api_overall_ems = Namespace("overall_ems", description="Overall Emission")
 
 
-@api_overall_ems.route("/")
+@api_overall_ems.route("/municipality")
 @api_overall_ems.param("year", "Year of the emission data")
 @api_overall_ems.param("adm_code", "Postal code of the municipality")
-class OverallEms(Resource):
+class OverallEmsAtMunicipality(Resource):
     """
-    Return Overall Emission at commune level by year
+    Return overall emission at commune level by year and adm_code
     """
 
     @api_overall_ems.doc(year="1990 to 2019")
@@ -19,7 +20,27 @@ class OverallEms(Resource):
     def get(self):
         year = request.args.get("year")
         adm_code = request.args.get("adm_code")
-        return jsonify(emission_by_year(year, adm_code))
+        return jsonify(emission_adm_filter(year=year, adm_code=adm_code))
 
 
-# %%
+@api_overall_ems.route("/country")
+@api_overall_ems.param("year", "Year of the emission data")
+class OverallEmsAtJapan(Resource):
+    """
+    Return overall emission of all municipality by year
+    """
+
+    @api_overall_ems.doc(year="1990 to 2019")
+    def get(self):
+        year = request.args.get("year")
+        return jsonify(emission_adm_filter(year=year))
+
+
+@api_overall_ems.route("/sector")
+class OverallEmsBySector(Resource):
+    """
+    Return overall emission of main sectors from 1990 to 2019 at country level
+    """
+
+    def get(self):
+        return {"result": merge_emssion_by_sector()}
