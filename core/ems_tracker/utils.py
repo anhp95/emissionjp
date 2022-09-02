@@ -115,14 +115,6 @@ def merge_geo_emission_by_city(**kwargs):
 
 
 def merge_emssion_by_sector():
-    # data = [
-    #     ["Style", "Colonial", "Victorian", "Modern", "Contemporary"],
-    #     ["2013", 5.2, 3.6, 2.8, 2],
-    #     ["2014", 5.6, 4.0, 2.8, 3],
-    #     ["2015", 7.2, 2.2, 2.2, 6.0],
-    #     ["2016", 8.0, 1.7, 0.8, 4.0],
-    # ]
-    # return data
 
     detail_result = [["Sector"] + DETAIL_SECTOR]
     agg_result = [["Sector"] + AGG_SECTOR]
@@ -132,7 +124,7 @@ def merge_emssion_by_sector():
 
         df = trans_cols(pd.read_csv(ems_csv))
         df = correct_df_col_to_int(df)
-        year = ems_csv.split("\\")[-1][:-4]
+        year = int(ems_csv.split("\\")[-1].split("/")[-1][:-4])
         detail_data = [year]
         agg_data = [year]
         for ds in DETAIL_SECTOR:
