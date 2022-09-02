@@ -18,9 +18,7 @@ def emission_adm_filter(**kwargs):
         return data
 
     merge_df = merge_geo_emission_by_adm(year=kwargs["year"])
-    # result = merge_df.to_dict("records")
-    # encodedUnicode = json.dumps(result, ensure_ascii=False)
-    return merge_df
+    return {"result": merge_df}
 
 
 def agg_by_pref(ems_file):
