@@ -26,6 +26,23 @@ DETAIL_SECTOR = [
     "waste",
 ]
 AGG_SECTOR = ["industry_total", "consumer_total", "transportation_total", "waste"]
+AVAILABLE_YEARS = [
+    1990,
+    2005,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+]
 
 
 def fix_chac_zip_code(df):
@@ -119,12 +136,10 @@ def merge_emssion_by_sector():
     detail_result = [["Sector"] + DETAIL_SECTOR]
     agg_result = [["Sector"] + AGG_SECTOR]
 
-    list_ems_csv = glob.glob(os.path.join(EMISSION_DIR, "*.csv"))
-    for ems_csv in list_ems_csv:
-
+    for year in AVAILABLE_YEARS:
+        ems_csv = os.path.join(EMISSION_DIR, f"{year}.csv")
         df = trans_cols(pd.read_csv(ems_csv))
         df = correct_df_col_to_int(df)
-        year = ems_csv.split("\\")[-1].split("/")[-1][:-4]
         detail_data = [year]
         agg_data = [year]
         for ds in DETAIL_SECTOR:
