@@ -124,7 +124,7 @@ def merge_emssion_by_sector():
 
         df = trans_cols(pd.read_csv(ems_csv))
         df = correct_df_col_to_int(df)
-        year = int(ems_csv.split("\\")[-1].split("/")[-1][:-4])
+        year = ems_csv.split("\\")[-1].split("/")[-1][:-4]
         detail_data = [year]
         agg_data = [year]
         for ds in DETAIL_SECTOR:
@@ -141,7 +141,7 @@ def merge_all_geo_emission():
     list_df = []
     for ems_file in EMISSION_FILES:
         print(ems_file.split("\\")[-1].split(".")[0])
-        year = ems_file.split("\\")[-1].split(".")[0]
+        year = int(ems_file.split("\\")[-1].split(".")[0])
         ems_df = pd.read_csv(ems_file)
         ems_df = correct_df_col_to_int(ems_df)
         geo_df = correct_shp_df()
