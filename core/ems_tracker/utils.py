@@ -140,8 +140,8 @@ def merge_emssion_by_sector():
         ems_csv = os.path.join(EMISSION_DIR, f"{year}.csv")
         df = trans_cols(pd.read_csv(ems_csv))
         df = correct_df_col_to_int(df)
-        detail_data = [year]
-        agg_data = [year]
+        detail_data = [str(year)]
+        agg_data = [str(year)]
         for ds in DETAIL_SECTOR:
             detail_data.append(int(df[ds].sum()))
         detail_result.append(detail_data)
