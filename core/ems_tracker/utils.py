@@ -13,6 +13,20 @@ from core.ems_tracker.mypath import (
     EMISSION_GEOJSON,
 )
 
+DETAIL_SECTOR = [
+    "manufacture",
+    "construction_mining",
+    "agriculture",
+    "business",
+    "building",
+    "passenger_car",
+    "freight_car",
+    "railway",
+    "ship",
+    "waste",
+]
+AGG_SECTOR = ["industry_total", "consumer_total", "transportation_total", "waste"]
+
 
 def fix_chac_zip_code(df):
     adm_col = df["adm_code"].values
@@ -57,7 +71,7 @@ def correct_df_col_to_int(ems_df):
         "consumer_total",
         "freight_car",
         "industry_total",
-        "manufature",
+        "manufacture",
         "passenger_car",
         "railway",
         "ship",
@@ -101,19 +115,34 @@ def merge_geo_emission_by_city(**kwargs):
 
 
 def merge_emssion_by_sector():
-    data = [
-        ["Director (Year)", "Rotten Tomatoes", "IMDB"],
-        ["Alfred Hitchcock (1935)", 8.4, 7.9],
-        ["Ralph Thomas (1959)", 6.9, 6.5],
-        ["Don Sharp (1978)", 6.5, 6.4],
-        ["James Hawes (2008)", 4.4, 6.2],
-    ]
-    return data
+    # data = [
+    #     ["Style", "Colonial", "Victorian", "Modern", "Contemporary"],
+    #     ["2013", 5.2, 3.6, 2.8, 2],
+    #     ["2014", 5.6, 4.0, 2.8, 3],
+    #     ["2015", 7.2, 2.2, 2.2, 6.0],
+    #     ["2016", 8.0, 1.7, 0.8, 4.0],
+    # ]
+    # return data
 
-    # list_ems_csv = glob.glob(os.path.join(EMISSION_DIR, "*.csv"))
+    detail_result = [["Sector"] + DETAIL_SECTOR]
+    agg_result = [["Sector"] + AGG_SECTOR]
 
-    # for ems_csv in list_ems_csv:
-    #     df = pd.read_csv(ems_csv)
+    list_ems_csv = glob.glob(os.path.join(EMISSION_DIR, "*.csv"))
+    for ems_csv in list_ems_csv:
+
+        df = trans_cols(pd.read_csv(ems_csv))
+        df = correct_df_col_to_int(df)
+        year = ems_csv.split("\\")[-1][:-4]
+        detail_data = [year]
+        agg_data = [year]
+        for ds in DETAIL_SECTOR:
+            detail_data.append(int(df[ds].sum()))
+        detail_result.append(detail_data)
+        for aggs in AGG_SECTOR:
+            agg_data.append(int(df[aggs].sum()))
+        agg_result.append(agg_data)
+
+    return detail_result, agg_result
 
 
 def merge_all_geo_emission():
@@ -140,7 +169,7 @@ def trans_cols(df):
             "都道府県": "pref_name",
             "市区町村コード": "adm_code",
             "市区町村": "municipality",
-            "製造業": "manufature",
+            "製造業": "manufacture",
             "建設業・鉱業": "construction_mining",
             "農林水産業": "agriculture",
             "産業部門　小計": "industry_total",

@@ -37,10 +37,16 @@ class OverallEmsAtJapan(Resource):
 
 
 @api_overall_ems.route("/sector")
+@api_overall_ems.param("sector_type", "1: detail sectors or 2: aggreated sectors")
 class OverallEmsBySector(Resource):
     """
     Return overall emission of main sectors from 1990 to 2019 at country level
     """
 
     def get(self):
-        return {"result": merge_emssion_by_sector()}
+
+        sector_type = request.args.get("sector_type")
+        detail_result, agg_result = merge_emssion_by_sector()
+        if int(sector_type) == 1:
+            return {"result": detail_result}
+        return {"result": agg_result}
