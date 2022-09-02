@@ -128,8 +128,7 @@ def merge_geo_emission_by_adm(**kwargs):
     for i in range(len(df)):
         arr = np.array(df.iloc[i].to_numpy()).tolist()
         for i in range(len(arr)):
-            if isinstance(arr[i], np.int32):
-
+            if isinstance(arr[i], np.int32) or isinstance(arr[i], np.int64):
                 arr[i] = int(arr[i])
         result.append(arr)
 
