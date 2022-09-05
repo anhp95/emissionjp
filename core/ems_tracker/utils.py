@@ -10,7 +10,6 @@ from core.ems_tracker.mypath import (
     EMISSION_DIR,
     EMISSION_FILES,
     AMD2_SHP,
-    EMISSION_GEOJSON,
 )
 
 DETAIL_SECTOR = [
@@ -105,6 +104,15 @@ def correct_df_col_to_int(ems_df):
 
 
 def merge_geo_emission_by_adm(**kwargs):
+    def fix_duplicate_city(l):
+        d = {}
+        for i in range(len(l)):
+            if l[i] in d:
+                d[l[i]] += 1
+                l[i] = f"{l[i]}_{str(d[l[i]])}"
+            else:
+                d[l[i]] = 0
+        return l
 
     year = kwargs["year"]
     ems_file = os.path.join(EMISSION_DIR, f"{year}.csv")
@@ -122,7 +130,9 @@ def merge_geo_emission_by_adm(**kwargs):
     result.append(["Location", "Parent", "Emission"])
     result.append(["Japan", None, 0])
 
+    merged_df["city"] = fix_duplicate_city(merged_df["city"].values)
     df = merged_df[["city", "pref", "total"]]
+
     for pref in df["pref"].unique():
         result.append([pref, "Japan", 0])
     for i in range(len(df)):
