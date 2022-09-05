@@ -123,7 +123,7 @@ def merge_geo_emission_by_adm(**kwargs):
     result.append(["Japan", None, 0])
 
     df = merged_df[["city", "pref", "total"]]
-    for pref in df["pref"].values:
+    for pref in df["pref"].unique():
         result.append([pref, "Japan", 0])
     for i in range(len(df)):
         arr = np.array(df.iloc[i].to_numpy()).tolist()
