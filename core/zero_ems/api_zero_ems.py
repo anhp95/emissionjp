@@ -50,16 +50,11 @@ def get_all_data():
 
 def result_reform(df, cols):
 
-    # emission_by_energy_type = [["Years"] + T2_COLS]
-    # emission_by_sector = [["Years"] + T3_COLS]
-    # RE_generated = [["Years"] + T4_COLS]
-    # RE_gp = [["Years"] + T5_COLS]
-
     result = [["Years"] + cols]
     years = [2013, 2030, 2050]
 
     for year in years:
-        rec_year = [year]
+        rec_year = [str(year)]
         for col in cols:
             rec_year.append(df[f"{col}_{year}"].values[0])
         result.append(rec_year)
