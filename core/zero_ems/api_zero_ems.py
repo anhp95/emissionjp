@@ -50,14 +50,19 @@ def get_all_data():
 
 def result_reform(df, cols):
 
-    result = [["Years"] + cols]
-    years = [2013, 2030, 2050]
+    years = ["2013", "2030", "2050"]
+    result = [["Types"] + years]
 
-    for year in years:
-        rec_year = [str(year)]
-        for col in cols:
-            rec_year.append(df[f"{col}_{year}"].values[0])
-        result.append(rec_year)
+    for col in cols:
+        rec_col = [col]
+        for year in years:
+            rec_col.append(df[f"{col}_{year}"].values[0])
+        result.append(rec_col)
+    # for year in years:
+    #     rec_year = [str(year)]
+    #     for col in cols:
+    #         rec_year.append(df[f"{col}_{year}"].values[0])
+    #     result.append(rec_year)
     return result
 
 
