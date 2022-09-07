@@ -2,7 +2,7 @@
 from flask_restx import Namespace, Resource
 from flask import request, jsonify
 
-from core.zero_ems.api_zero_ems import get_all_data, get_data_by_commune_code
+from core.zero_ems.api_zero_ems import get_all_data, filter_by_adm
 
 
 api_zero_ems = Namespace("zero_ems", description="Zero Emission scenario")
@@ -21,7 +21,7 @@ class ZeroEms(Resource):
     def get(self):
 
         commune_code = int(request.args.get("commune_code"))
-        zero_ems_data = get_data_by_commune_code(
+        zero_ems_data = filter_by_adm(
             commune_code, OVERALL_DF, FIG1_DF, FIG2_DF, FIG3_DF, FIG4_DF, FIG5_DF
         )
 

@@ -103,7 +103,7 @@ def fig3_changes_emission_by_sector_energy_type(ws):
         "S",
         "T",
     ]
-    col_names = {
+    col_names = [
         "agriculture_forestry_fisheries",
         "construction_mining",
         "paper",
@@ -120,7 +120,7 @@ def fig3_changes_emission_by_sector_energy_type(ws):
         "vessel",
         "aviation",
         "total_emission",
-    }
+    ]
 
     return fetch_data(rows, col_indexes, col_names, ws)
 
@@ -138,7 +138,7 @@ def fig4_amount_RE_generated(ws):
         "L",
         "M",
     ]
-    col_names = {
+    col_names = [
         "residential_solar",
         "10-50kW_solar",
         "50kW_or_more_solar_power",
@@ -148,7 +148,7 @@ def fig4_amount_RE_generated(ws):
         "geothermal",
         "biomass",
         "total",
-    }
+    ]
 
     return fetch_data(rows, col_indexes, col_names, ws)
 
@@ -165,7 +165,7 @@ def fig5_RE_power_local_consumption(ws):
         "K",
         "M",
     ]
-    col_names = {
+    col_names = [
         "self_consumption_solar",
         "non_FIT_solar_consumption",
         "post_FIT_power_consumption",
@@ -174,7 +174,7 @@ def fig5_RE_power_local_consumption(ws):
         "electricity_distribution_business/microgrid",
         "total_renewable_energy_&_heat_local_production_&_local_consumption",
         "local_production_local_consumption/total_energy_consumption",
-    }
+    ]
 
     return fetch_data(rows, col_indexes, col_names, ws)
 
