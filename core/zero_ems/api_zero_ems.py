@@ -50,7 +50,7 @@ def get_all_data():
 
 def result_reform(df, cols):
 
-    years = ["2013", "2030", "2050"]
+    years = ["2013", "2030", "2040", "2050"]
     result = [["Types"] + years]
 
     for col in cols:
