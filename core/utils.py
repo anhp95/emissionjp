@@ -45,6 +45,23 @@ AVAILABLE_YEARS = [
     2018,
     2019,
 ]
+LIST_EMS_TRACKER_COLS = [
+    ADM_CODE,
+    "agriculture",
+    "building",
+    "business",
+    "construction_mining",
+    "consumer_total",
+    "freight_car",
+    "industry_total",
+    "manufacture",
+    "passenger_car",
+    "railway",
+    "ship",
+    "transportation_total",
+    "waste",
+    "total",
+]
 
 
 def fix_chac_zip_code(df):
@@ -81,7 +98,6 @@ def correct_shp_df():
 def correct_df_col_to_int(ems_df, list_cols):
 
     ems_df = trans_cols(ems_df)
-    
 
     for col in list_cols:
         ems_df[col] = fix_comma(ems_df[col].values)
@@ -100,29 +116,29 @@ def merge_geo_emission_by_adm(**kwargs):
             else:
                 d[l[i]] = 0
         return l
-    
-    list_cols = [
-        ADM_CODE,
-        "agriculture",
-        "building",
-        "business",
-        "construction_mining",
-        "consumer_total",
-        "freight_car",
-        "industry_total",
-        "manufacture",
-        "passenger_car",
-        "railway",
-        "ship",
-        "transportation_total",
-        "waste",
-        "total",
-    ]
+
+    # list_cols = [
+    #     ADM_CODE,
+    #     "agriculture",
+    #     "building",
+    #     "business",
+    #     "construction_mining",
+    #     "consumer_total",
+    #     "freight_car",
+    #     "industry_total",
+    #     "manufacture",
+    #     "passenger_car",
+    #     "railway",
+    #     "ship",
+    #     "transportation_total",
+    #     "waste",
+    #     "total",
+    # ]
 
     year = kwargs["year"]
     ems_file = os.path.join(EMS_TRACKER_DIR, f"{year}.csv")
     ems_df = pd.read_csv(ems_file)
-    ems_df = correct_df_col_to_int(ems_df, list_cols)
+    ems_df = correct_df_col_to_int(ems_df, LIST_EMS_TRACKER_COLS)
 
     geo_df = correct_shp_df()
     merged_df = geo_df.merge(ems_df, left_on=ADM_CODE, right_on=ADM_CODE)
@@ -158,7 +174,7 @@ def merge_emssion_by_sector():
     for year in AVAILABLE_YEARS:
         ems_csv = os.path.join(EMS_TRACKER_DIR, f"{year}.csv")
         df = trans_cols(pd.read_csv(ems_csv))
-        df = correct_df_col_to_int(df)
+        df = correct_df_col_to_int(df, LIST_EMS_TRACKER_COLS)
         detail_data = [str(year)]
         agg_data = [str(year)]
         for ds in DETAIL_SECTOR:
@@ -177,7 +193,7 @@ def merge_all_geo_emission():
         print(ems_file.split("\\")[-1].split(".")[0])
         year = int(ems_file.split("\\")[-1].split(".")[0])
         ems_df = pd.read_csv(ems_file)
-        ems_df = correct_df_col_to_int(ems_df)
+        ems_df = correct_df_col_to_int(ems_df, LIST_EMS_TRACKER_COLS)
         geo_df = correct_shp_df()
         df = geo_df.merge(ems_df, left_on=ADM_CODE, right_on=ADM_CODE)
         df["year"] = [year] * len(df)
