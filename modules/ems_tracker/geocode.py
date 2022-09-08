@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 from flask import jsonify
 
 api_geocode = Namespace("geocode", "Geocoding API for Japan's municipality")
-city_df = pd.read_csv("data/zeroemission/city.csv")
+city_df = pd.read_csv("data/zero_ems/city.csv")
 
 
 @api_geocode.route("/jp_adm2")
