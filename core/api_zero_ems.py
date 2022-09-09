@@ -52,10 +52,11 @@ def result_reform(df, cols):
         result_gg_chart_bar.append(rec_col)
 
     result_rechart_line = []
-    for year in years:
-        year_rec = {"year": year}
-        for col in cols:
-            year_rec[col] = df[f"{col}_{year}"].values[0]
+    for col in cols:
+        year_rec = {"id": col, "color": "hsl(72, 70%, 50%)"}
+        year_rec["data"] = []
+        for year in years:
+            year_rec["data"].append({"x": year, "y": df[f"{col}_{year}"].values[0]})
         result_rechart_line.append(year_rec)
     return result_gg_chart_bar, result_rechart_line
 
@@ -86,7 +87,7 @@ def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5
             "emission_sector": f3_line,
             "re_gen": f4_line,
             "re_gen_used": f5_line,
-        }
+        },
     }
 
     encodedUnicode = json.dumps(result, ensure_ascii=False)
