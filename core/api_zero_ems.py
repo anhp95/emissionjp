@@ -4,7 +4,7 @@ import os
 import json
 
 from core.const import *
-from core.mypath import ZERO_EMS_DIR
+from core.mypath import *
 from core.utils import correct_shp_df, correct_df_col_to_int
 
 # from const import *
@@ -43,35 +43,52 @@ def get_all_data():
 def result_reform(df, cols):
 
     years = ["2013", "2030", "2040", "2050"]
-    result = [["Types"] + years]
+    result_gg_chart_bar = [["Types"] + years]
 
     for col in cols:
         rec_col = [col]
         for year in years:
             rec_col.append(df[f"{col}_{year}"].values[0])
-        result.append(rec_col)
-    return result
+        result_gg_chart_bar.append(rec_col)
+
+    result_rechart_line = []
+    for year in years:
+        year_rec = {"year": year}
+        for col in cols:
+            year_rec[col] = df[f"{col}_{year}"].values[0]
+        result_rechart_line.append(year_rec)
+    return result_gg_chart_bar, result_rechart_line
 
 
 def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df):
 
     fig5_df = fig5_df.fillna(0)
 
-    commune_overall_df = overall_df[overall_df[ADM_CODE] == adm_code]
-    commune_fig1_df = fig1_df[fig1_df[ADM_CODE] == adm_code]
-    commune_fig2_df = fig2_df[fig2_df[ADM_CODE] == adm_code]
-    commune_fig3_df = fig3_df[fig3_df[ADM_CODE] == adm_code]
-    commune_fig4_df = fig4_df[fig4_df[ADM_CODE] == adm_code]
-    commune_fig5_df = fig5_df[fig5_df[ADM_CODE] == adm_code]
+    overall = overall_df[overall_df[ADM_CODE] == adm_code]
+    f1_bar, f1_line = result_reform(fig1_df[fig1_df[ADM_CODE] == adm_code], T1_COLS)
+    f2_bar, f2_line = result_reform(fig2_df[fig2_df[ADM_CODE] == adm_code], T2_COLS)
+    f3_bar, f3_line = result_reform(fig3_df[fig3_df[ADM_CODE] == adm_code], T3_COLS)
+    f4_bar, f4_line = result_reform(fig4_df[fig4_df[ADM_CODE] == adm_code], T4_COLS)
+    f5_bar, f5_line = result_reform(fig5_df[fig5_df[ADM_CODE] == adm_code], T5_COLS)
 
     result = {
-        "overall": commune_overall_df.to_dict("records")[0],
-        "energy_consumption": result_reform(commune_fig1_df, T1_COLS),
-        "emission_energy": result_reform(commune_fig2_df, T2_COLS),
-        "emission_sector": result_reform(commune_fig3_df, T3_COLS),
-        "re_gen": result_reform(commune_fig4_df, T4_COLS),
-        "re_gen_used": result_reform(commune_fig5_df, T5_COLS),
+        "overall": overall.to_dict("records")[0],
+        "result_bar": {
+            "energy_consumption": f1_bar,
+            "emission_energy": f2_bar,
+            "emission_sector": f3_bar,
+            "re_gen": f4_bar,
+            "re_gen_used": f5_bar,
+        },
+        "result_line": {
+            "energy_consumption": f1_line,
+            "emission_energy": f2_line,
+            "emission_sector": f3_line,
+            "re_gen": f4_line,
+            "re_gen_used": f5_line,
+        }
     }
+
     encodedUnicode = json.dumps(result, ensure_ascii=False)
     return json.loads(encodedUnicode)
 
