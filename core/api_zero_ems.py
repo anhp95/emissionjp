@@ -64,21 +64,36 @@ def detail_reform(df, cols):
 def overall_reform(df):
 
     result = {}
+    commune_name = df["commune_name"].values[0]
 
-    years = ["2030", "2040", "2050"]
-    result_key = ["country", "municipality"]
-    index = [1, 2]
+    country_col = OVERALL_COLS[1]
+    muni_col = OVERALL_COLS[0]
 
-    for k in result_key:
-        for i in index:
-            if k == "country":
-                result[f"{k}_{i}"] = [["全国"]]
-            else:
-                result[f"{k}_{i}"] = [[df["commune_name"].values[0]]]
-            for y in years:
-                col = f"{OVERALL_COLS[i-1]}_{y}_{i}"
-                val = df[col].values[0]
-                result[f"{k}_{i}"].append([val])
+    result["country_1"] = [
+        ["全国"],
+        [df[f"{country_col}_2030_1"].values[0]],
+        [df[f"{country_col}_2040_1"].values[0]],
+        [df[f"{country_col}_2050_1"].values[0]],
+    ]
+    result["country_2"] = [
+        ["全国"],
+        [df[f"{country_col}_2030_2"].values[0]],
+        [df[f"{country_col}_2040_2"].values[0]],
+        [df[f"{country_col}_2050_2"].values[0]],
+    ]
+
+    result["municipality_1"] = [
+        [commune_name],
+        [df[f"{muni_col}_2030_1"].values[0]],
+        [df[f"{muni_col}_2040_1"].values[0]],
+        [df[f"{muni_col}_2050_1"].values[0]],
+    ]
+    result["municipality_2"] = [
+        [commune_name],
+        [df[f"{muni_col}_2030_2"].values[0]],
+        [df[f"{muni_col}_2040_2"].values[0]],
+        [df[f"{muni_col}_2050_2"].values[0]],
+    ]
 
     return result
 
