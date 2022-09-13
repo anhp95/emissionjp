@@ -187,8 +187,7 @@ def merge_emssion_by_sector():
     return detail_result, agg_result
 
 
-def merge_all_geo_emission():
-    list_df = []
+def gen_geo_emission():
     for ems_file in EMS_TRACKER_FILES:
         print(ems_file.split("\\")[-1].split(".")[0])
         year = int(ems_file.split("\\")[-1].split(".")[0])
@@ -197,11 +196,7 @@ def merge_all_geo_emission():
         geo_df = correct_shp_df()
         df = geo_df.merge(ems_df, left_on=ADM_CODE, right_on=ADM_CODE)
         df["year"] = [year] * len(df)
-        list_df.append(df)
-
-    merged_df = gpd.GeoDataFrame(pd.concat(list_df, ignore_index=True))
-    # merged_df.to_file(EMISSION_GEOJSON, driver="GeoJSON")
-    return merged_df
+        df.to_file(f"../data/ems_tracker/merged/{year}.json", driver="GeoJSON")
 
 
 def trans_cols(df):

@@ -75,7 +75,14 @@ def detail_reform(df, cols):
         for year in years:
             year_rec["data"].append({"x": year, "y": df[f"{col}_{year}"].values[0]})
         result_rechart_line.append(year_rec)
-    return result_gg_chart_bar, result_rechart_line
+    result_rechart_stacked_area = []
+    for y in years:
+        dict_col = {}
+        dict_col["name"] = y
+        for col in cols:
+            dict_col[col] = df[f"{col}_{y}"].values[0]
+        result_rechart_stacked_area.append(dict_col)
+    return result_gg_chart_bar, result_rechart_line, result_rechart_stacked_area
 
 
 def overall_reform(df):
@@ -120,11 +127,21 @@ def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5
     fig5_df = fig5_df.fillna(0)
 
     overall = overall_reform(overall_df[overall_df[ADM_CODE] == adm_code])
-    f1_bar, f1_line = detail_reform(fig1_df[fig1_df[ADM_CODE] == adm_code], T1_COLS)
-    f2_bar, f2_line = detail_reform(fig2_df[fig2_df[ADM_CODE] == adm_code], T2_COLS)
-    f3_bar, f3_line = detail_reform(fig3_df[fig3_df[ADM_CODE] == adm_code], T3_COLS)
-    f4_bar, f4_line = detail_reform(fig4_df[fig4_df[ADM_CODE] == adm_code], T4_COLS)
-    f5_bar, f5_line = detail_reform(fig5_df[fig5_df[ADM_CODE] == adm_code], T5_COLS)
+    f1_bar, f1_line, f1_stack = detail_reform(
+        fig1_df[fig1_df[ADM_CODE] == adm_code], T1_COLS
+    )
+    f2_bar, f2_line, f2_stack = detail_reform(
+        fig2_df[fig2_df[ADM_CODE] == adm_code], T2_COLS
+    )
+    f3_bar, f3_line, f3_stack = detail_reform(
+        fig3_df[fig3_df[ADM_CODE] == adm_code], T3_COLS
+    )
+    f4_bar, f4_line, f4_stack = detail_reform(
+        fig4_df[fig4_df[ADM_CODE] == adm_code], T4_COLS
+    )
+    f5_bar, f5_line, f5_stack = detail_reform(
+        fig5_df[fig5_df[ADM_CODE] == adm_code], T5_COLS
+    )
 
     result = {
         "overall": overall,
@@ -141,6 +158,13 @@ def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5
             "emission_sector": f3_line,
             "re_gen": f4_line,
             "re_gen_used": f5_line,
+        },
+        "result_stack": {
+            "energy_consumption": f1_stack,
+            "emission_energy": f2_stack,
+            "emission_sector": f3_stack,
+            "re_gen": f4_stack,
+            "re_gen_used": f5_stack,
         },
     }
 
