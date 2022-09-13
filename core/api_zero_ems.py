@@ -43,6 +43,23 @@ def get_all_data():
 def detail_reform(df, cols):
 
     years = ["2013", "2030", "2040", "2050"]
+    hsl_code = [
+        "hsl(72, 70%, 50%)",
+        "hsl(47, 70%, 50%)",
+        "hsl(10, 70%, 50%)",
+        "hsl(94, 70%, 50%)",
+        "hsl(94, 70%, 72%)",
+        "hsl(94, 70%, 17%)",
+        "hsl(172, 59%, 50%)",
+        "hsl(172, 10%, 50%)",
+        "hsl(212, 75%, 50%)",
+        "hsl(258, 75%, 51%)",
+        "hsl(285, 75%, 51%)",
+        "hsl(342, 84%, 51%)",
+        "hsl(38, 71%, 50%)",
+        "hsl(14, 71%, 50%)",
+        "hsl(146, 71%, 50%)",
+    ]
     result_gg_chart_bar = [["Types"] + years]
 
     for col in cols:
@@ -52,8 +69,8 @@ def detail_reform(df, cols):
         result_gg_chart_bar.append(rec_col)
 
     result_rechart_line = []
-    for col in cols:
-        year_rec = {"id": col, "color": "hsl(72, 70%, 50%)"}
+    for col, hsl in zip(cols, hsl_code):
+        year_rec = {"id": col, "color": hsl}
         year_rec["data"] = []
         for year in years:
             year_rec["data"].append({"x": year, "y": df[f"{col}_{year}"].values[0]})

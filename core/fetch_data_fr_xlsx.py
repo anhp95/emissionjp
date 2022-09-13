@@ -241,11 +241,11 @@ if __name__ == "__main__":
     # df_fig4 = pd.DataFrame.from_dict(l_fig4)
     # df_fig5 = pd.DataFrame.from_dict(l_fig5)
 
-    df_overall.to_csv("../../data/zero_ems/raw/overall.csv")
-    # df_fig1.to_csv("../../data/zeroemission/fig1.csv")
-    # df_fig2.to_csv("../../data/zeroemission/fig2.csv")
-    # df_fig3.to_csv("../../data/zeroemission/fig3.csv")
-    # df_fig4.to_csv("../../data/zeroemission/fig4.csv")
-    # df_fig5.to_csv("../../data/zeroemission/fig5.csv")
+    df_overall.to_csv("../data/zero_ems/raw/overall.csv")
+    # df_fig1.to_csv("../data/zeroemission/fig1.csv")
+    # df_fig2.to_csv("../data/zeroemission/fig2.csv")
+    # df_fig3.to_csv("../data/zeroemission/fig3.csv")
+    # df_fig4.to_csv("../data/zeroemission/fig4.csv")
+    # df_fig5.to_csv("../data/zeroemission/fig5.csv")
 
 # %%
