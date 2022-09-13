@@ -71,7 +71,7 @@ def overall_reform(df):
 
     for k in result_key:
         for i in index:
-            if i == 1:
+            if k == "country":
                 result[f"{k}_{i}"] = [["全国"]]
             else:
                 result[f"{k}_{i}"] = [[df["commune_name"].values[0]]]
