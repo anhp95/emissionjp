@@ -3,13 +3,13 @@ import pandas as pd
 import os
 import json
 
-from core.const import *
-from core.mypath import *
-from core.utils import correct_shp_df, correct_df_col_to_int
+# from core.const import *
+# from core.mypath import *
+# from core.utils import correct_shp_df, correct_df_col_to_int
 
-# from const import *
-# from mypath import *
-# from utils import correct_shp_df, correct_df_col_to_int
+from const import *
+from mypath import *
+from utils import correct_shp_df, correct_df_col_to_int
 
 
 def read_zero_ems_csv(file_name):
@@ -116,6 +116,19 @@ def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5
     return json.loads(encodedUnicode)
 
 
+def norm_df(df):
+
+    no_norm_cols = ["commune_code", "commune_name", "adm_code"]
+    full_cols = df.columns
+
+    for col in full_cols:
+        if col not in no_norm_cols:
+            df_col = df[col]
+            df[col] = (df_col - df_col.min()) / (df_col.max() - df_col.min())
+
+    return df
+
+
 def gen_geo_zero_ems():
     overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df = get_all_data()
 
@@ -126,21 +139,22 @@ def gen_geo_zero_ems():
         left_on=ADM_CODE,
         right_on=ADM_CODE,
     ).to_file(OVERALL_GEOJSON, driver="GeoJSON")
-    geo_fig1_df = geo_df.merge(fig1_df, left_on=ADM_CODE, right_on=ADM_CODE).to_file(
-        FIG1_GEOJSON, driver="GeoJSON"
-    )
-    geo_fig2_df = geo_df.merge(fig2_df, left_on=ADM_CODE, right_on=ADM_CODE).to_file(
-        FIG2_GEOJSON, driver="GeoJSON"
-    )
-    geo_fig3_df = geo_df.merge(fig3_df, left_on=ADM_CODE, right_on=ADM_CODE).to_file(
-        FIG3_GEOJSON, driver="GeoJSON"
-    )
-    geo_fig4_df = geo_df.merge(fig4_df, left_on=ADM_CODE, right_on=ADM_CODE).to_file(
-        FIG4_GEOJSON, driver="GeoJSON"
-    )
-    geo_fig5_df = geo_df.merge(fig5_df, left_on=ADM_CODE, right_on=ADM_CODE).to_file(
-        FIG5_GEOJSON, driver="GeoJSON"
-    )
+
+    geo_fig1_df = geo_df.merge(
+        norm_df(fig1_df), left_on=ADM_CODE, right_on=ADM_CODE
+    ).to_file(FIG1_GEOJSON, driver="GeoJSON")
+    geo_fig2_df = geo_df.merge(
+        norm_df(fig2_df), left_on=ADM_CODE, right_on=ADM_CODE
+    ).to_file(FIG2_GEOJSON, driver="GeoJSON")
+    geo_fig3_df = geo_df.merge(
+        norm_df(fig3_df), left_on=ADM_CODE, right_on=ADM_CODE
+    ).to_file(FIG3_GEOJSON, driver="GeoJSON")
+    geo_fig4_df = geo_df.merge(
+        norm_df(fig4_df), left_on=ADM_CODE, right_on=ADM_CODE
+    ).to_file(FIG4_GEOJSON, driver="GeoJSON")
+    geo_fig5_df = geo_df.merge(
+        norm_df(fig5_df), left_on=ADM_CODE, right_on=ADM_CODE
+    ).to_file(FIG5_GEOJSON, driver="GeoJSON")
 
     return (
         geo_overall_df,

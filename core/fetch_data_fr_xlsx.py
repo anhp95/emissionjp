@@ -20,9 +20,9 @@ def overall_reduction_rate(ws, commune_name, commune_code):
     jp_rate_2040_index_1 = "I9"
     jp_rate_2050_index_1 = "I10"
 
-    jp_rate_2030_index_2 = "I8"
-    jp_rate_2040_index_2 = "I9"
-    jp_rate_2050_index_2 = "I10"
+    jp_rate_2030_index_2 = "J8"
+    jp_rate_2040_index_2 = "J9"
+    jp_rate_2050_index_2 = "J10"
 
     return {
         "commune_code": commune_code,
@@ -241,7 +241,7 @@ if __name__ == "__main__":
     # df_fig4 = pd.DataFrame.from_dict(l_fig4)
     # df_fig5 = pd.DataFrame.from_dict(l_fig5)
 
-    df_overall.to_csv("../../data/zeroemission/overall.csv")
+    df_overall.to_csv("../../data/zero_ems/raw/overall.csv")
     # df_fig1.to_csv("../../data/zeroemission/fig1.csv")
     # df_fig2.to_csv("../../data/zeroemission/fig2.csv")
     # df_fig3.to_csv("../../data/zeroemission/fig3.csv")
