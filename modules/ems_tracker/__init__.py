@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask_restx import Api
 
 from .overall_ems import api_overall_ems
-from .geocode import api_geocode
+from .geocode import api_adm_code
 
 bp_ems_tracker = Blueprint("ems_tracker", __name__)
 api = Api(
@@ -14,6 +14,6 @@ api = Api(
 )
 
 api.add_namespace(api_overall_ems)
-api.add_namespace(api_geocode)
+api.add_namespace(api_adm_code)
 
 # %%
