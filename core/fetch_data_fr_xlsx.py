@@ -8,23 +8,37 @@ from const import *
 
 def overall_reduction_rate(ws, commune_name, commune_code):
 
-    commune_rate_2030_index = "E8"
-    commune_rate_2040_index = "E9"
-    commune_rate_2050_index = "E10"
+    commune_rate_2030_index_1 = "E8"
+    commune_rate_2040_index_1 = "E9"
+    commune_rate_2050_index_1 = "E10"
 
-    jp_rate_2030_index = "I8"
-    jp_rate_2040_index = "I9"
-    jp_rate_2050_index = "I10"
+    commune_rate_2030_index_2 = "F8"
+    commune_rate_2040_index_2 = "F9"
+    commune_rate_2050_index_2 = "F10"
+
+    jp_rate_2030_index_1 = "I8"
+    jp_rate_2040_index_1 = "I9"
+    jp_rate_2050_index_1 = "I10"
+
+    jp_rate_2030_index_2 = "I8"
+    jp_rate_2040_index_2 = "I9"
+    jp_rate_2050_index_2 = "I10"
 
     return {
         "commune_code": commune_code,
         "commune_name": commune_name,
-        "commune_reduction_rate_2030": ws.Range(commune_rate_2030_index).Value,
-        "commune_reduction_rate_2040": ws.Range(commune_rate_2040_index).Value,
-        "commune_reduction_rate_2050": ws.Range(commune_rate_2050_index).Value,
-        "jp_reduction_rate_2030": ws.Range(jp_rate_2030_index).Value,
-        "jp_reduction_rate_2040": ws.Range(jp_rate_2040_index).Value,
-        "jp_reduction_rate_2050": ws.Range(jp_rate_2050_index).Value,
+        "commune_red_rate_2030_1": ws.Range(commune_rate_2030_index_1).Value,
+        "commune_red_rate_2040_1": ws.Range(commune_rate_2040_index_1).Value,
+        "commune_red_rate_2050_1": ws.Range(commune_rate_2050_index_1).Value,
+        "jp_red_rate_2030_1": ws.Range(jp_rate_2030_index_1).Value,
+        "jp_red_rate_2040_1": ws.Range(jp_rate_2040_index_1).Value,
+        "jp_red_rate_2050_1": ws.Range(jp_rate_2050_index_1).Value,
+        "commune_red_rate_2030_2": ws.Range(commune_rate_2030_index_2).Value,
+        "commune_red_rate_2040_2": ws.Range(commune_rate_2040_index_2).Value,
+        "commune_red_rate_2050_2": ws.Range(commune_rate_2050_index_2).Value,
+        "jp_red_rate_2030_2": ws.Range(jp_rate_2030_index_2).Value,
+        "jp_red_rate_2040_2": ws.Range(jp_rate_2040_index_2).Value,
+        "jp_red_rate_2050_2": ws.Range(jp_rate_2050_index_2).Value,
     }
 
 
@@ -206,11 +220,11 @@ def main():
         commune_name = ws.Range("F3").Value
         print(commune_name)
         l_overall.append(overall_reduction_rate(ws, commune_name, commune_code))
-        l_fig1.append(fig1_trends_energy_consumption(ws))
-        l_fig2.append(fig2_trends_co2_reduction(ws))
-        l_fig3.append(fig3_changes_emission_by_sector_energy_type(ws))
-        l_fig4.append(fig4_amount_RE_generated(ws))
-        l_fig5.append(fig5_RE_power_local_consumption(ws))
+        # l_fig1.append(fig1_trends_energy_consumption(ws))
+        # l_fig2.append(fig2_trends_co2_reduction(ws))
+        # l_fig3.append(fig3_changes_emission_by_sector_energy_type(ws))
+        # l_fig4.append(fig4_amount_RE_generated(ws))
+        # l_fig5.append(fig5_RE_power_local_consumption(ws))
 
     return l_overall, l_fig1, l_fig2, l_fig3, l_fig4, l_fig5
 
@@ -221,17 +235,17 @@ if __name__ == "__main__":
 
     df_overall = pd.DataFrame.from_dict(l_overall)
 
-    df_fig1 = pd.DataFrame.from_dict(l_fig1)
-    df_fig2 = pd.DataFrame.from_dict(l_fig2)
-    df_fig3 = pd.DataFrame.from_dict(l_fig3)
-    df_fig4 = pd.DataFrame.from_dict(l_fig4)
-    df_fig5 = pd.DataFrame.from_dict(l_fig5)
+    # df_fig1 = pd.DataFrame.from_dict(l_fig1)
+    # df_fig2 = pd.DataFrame.from_dict(l_fig2)
+    # df_fig3 = pd.DataFrame.from_dict(l_fig3)
+    # df_fig4 = pd.DataFrame.from_dict(l_fig4)
+    # df_fig5 = pd.DataFrame.from_dict(l_fig5)
 
     df_overall.to_csv("../../data/zeroemission/overall.csv")
-    df_fig1.to_csv("../../data/zeroemission/fig1.csv")
-    df_fig2.to_csv("../../data/zeroemission/fig2.csv")
-    df_fig3.to_csv("../../data/zeroemission/fig3.csv")
-    df_fig4.to_csv("../../data/zeroemission/fig4.csv")
-    df_fig5.to_csv("../../data/zeroemission/fig5.csv")
+    # df_fig1.to_csv("../../data/zeroemission/fig1.csv")
+    # df_fig2.to_csv("../../data/zeroemission/fig2.csv")
+    # df_fig3.to_csv("../../data/zeroemission/fig3.csv")
+    # df_fig4.to_csv("../../data/zeroemission/fig4.csv")
+    # df_fig5.to_csv("../../data/zeroemission/fig5.csv")
 
 # %%

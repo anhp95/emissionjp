@@ -9,6 +9,8 @@ ADM_CODE = "adm_code"
 CITY_CODE = "city_code"
 COMMUNE_CODE = "commune_code"
 
+OVERALL_COLS = ["commune_red_rate", "jp_red_rate"]
+
 T1_COLS = [
     "coal",
     "gasoline",

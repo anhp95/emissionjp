@@ -40,7 +40,7 @@ def get_all_data():
     return overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df
 
 
-def result_reform(df, cols):
+def detail_reform(df, cols):
 
     years = ["2013", "2030", "2040", "2050"]
     result_gg_chart_bar = [["Types"] + years]
@@ -61,19 +61,41 @@ def result_reform(df, cols):
     return result_gg_chart_bar, result_rechart_line
 
 
+def overall_reform(df):
+
+    result = {}
+
+    years = ["2030", "2040", "2050"]
+    result_key = ["country", "municipality"]
+    index = [1, 2]
+
+    for k in result_key:
+        for i in index:
+            if i == 1:
+                result[f"{k}_{i}"] = [["全国"]]
+            else:
+                result[f"{k}_{i}"] = [[df["commune_name"].values[0]]]
+            for y in years:
+                col = f"{OVERALL_COLS[i-1]}_{y}_{i}"
+                val = df[col].values[0]
+                result[f"{k}_{i}"].append([val])
+
+    return result
+
+
 def filter_by_adm(adm_code, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df):
 
     fig5_df = fig5_df.fillna(0)
 
-    overall = overall_df[overall_df[ADM_CODE] == adm_code]
-    f1_bar, f1_line = result_reform(fig1_df[fig1_df[ADM_CODE] == adm_code], T1_COLS)
-    f2_bar, f2_line = result_reform(fig2_df[fig2_df[ADM_CODE] == adm_code], T2_COLS)
-    f3_bar, f3_line = result_reform(fig3_df[fig3_df[ADM_CODE] == adm_code], T3_COLS)
-    f4_bar, f4_line = result_reform(fig4_df[fig4_df[ADM_CODE] == adm_code], T4_COLS)
-    f5_bar, f5_line = result_reform(fig5_df[fig5_df[ADM_CODE] == adm_code], T5_COLS)
+    overall = overall_reform(overall_df[overall_df[ADM_CODE] == adm_code])
+    f1_bar, f1_line = detail_reform(fig1_df[fig1_df[ADM_CODE] == adm_code], T1_COLS)
+    f2_bar, f2_line = detail_reform(fig2_df[fig2_df[ADM_CODE] == adm_code], T2_COLS)
+    f3_bar, f3_line = detail_reform(fig3_df[fig3_df[ADM_CODE] == adm_code], T3_COLS)
+    f4_bar, f4_line = detail_reform(fig4_df[fig4_df[ADM_CODE] == adm_code], T4_COLS)
+    f5_bar, f5_line = detail_reform(fig5_df[fig5_df[ADM_CODE] == adm_code], T5_COLS)
 
     result = {
-        "overall": overall.to_dict("records")[0],
+        "overall": overall,
         "result_bar": {
             "energy_consumption": f1_bar,
             "emission_energy": f2_bar,
