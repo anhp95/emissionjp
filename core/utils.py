@@ -205,7 +205,7 @@ def trans_cols(df):
             "都道府県コード": "pref_code",
             "都道府県": "pref_name",
             "市区町村コード": ADM_CODE,
-            "市区町村": "municipality",
+            "市区町村": "commune_name",
             "製造業": "manufacture",
             "建設業・鉱業": "construction_mining",
             "農林水産業": "agriculture",

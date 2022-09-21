@@ -12,7 +12,7 @@ api_overall_ems = Namespace("overall_ems", description="Overall Emission")
 @api_overall_ems.param("year", "Year of the emission data")
 @api_overall_ems.param(
     "adm_code",
-    "Municipality code of the municipality (see https://emissionjp.herokuapp.com/ems_tracker/geocode/jp_adm2)",
+    "Municipality code of the municipality (see http://localhost:5000/ems_tracker/adm_code/jp_adm2)",
 )
 class OverallEmsAtMunicipality(Resource):
     """

@@ -28,15 +28,15 @@ class ZeroEmsAtMunacipality(Resource):
         return zero_ems_data
 
 
-@api_zero_ems.route("/country")
-@api_zero_ems.param("scenario_type", "Type of the scenario")
-class ZeroEmsAtJapan(Resource):
-    """
-    Return Overall Scenario at country level
-    """
+# @api_zero_ems.route("/country")
+# @api_zero_ems.param("scenario_type", "Type of the scenario")
+# class ZeroEmsAtJapan(Resource):
+#     """
+#     Return Overall Scenario at country level
+#     """
 
-    @api_zero_ems.doc(
-        scenario_type="One of energy_comsumption, emission_energy, emission_sector or re_gen, re_gen_used"
-    )
-    def get(self):
-        scenario_type = request.args.get("scenario_type")
+#     @api_zero_ems.doc(
+#         scenario_type="One of energy_comsumption, emission_energy, emission_sector or re_gen, re_gen_used"
+#     )
+#     def get(self):
+#         scenario_type = request.args.get("scenario_type")

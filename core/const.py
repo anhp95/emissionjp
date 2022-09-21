@@ -75,4 +75,14 @@ T5_COLS = [
     "total_renewable_energy_&_heat_local_production_&_local_consumption",
     "local_production_local_consumption/total_energy_consumption",
 ]
-# %%
+
+hokkaido_url = "https://denkiyoho.hepco.co.jp/area/data/juyo_01_20220915.csv"  # https://denkiyoho.hepco.co.jp/
+tohoku_url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_20200913.csv"
+tokyo_url = "https://www.tepco.co.jp/forecast/html/images/juyo-d1-j.csv"
+chubu_url = "https://powergrid.chuden.co.jp/denki_yoho_content_data/juyo_cepco003.csv"  # https://powergrid.chuden.co.jp/denkiyoho/
+hokuriku_url = "https://www.rikuden.co.jp/nw/denki-yoho/csv/juyo_05_20220915.csv"
+kansai_url = "https://www.kansai-td.co.jp/yamasou/juyo1_kansai.csv"
+chugoku_url = "https://www.energia.co.jp/nw/jukyuu/csv.html"
+shikoku_url = "https://www.yonden.co.jp/nw/denkiyoho/juyo_shikoku.csv"
+kyushu_url = "https://www.kyuden.co.jp/td_power_usages/csv/juyo-hourly-20220915.csv"
+okinawa_url = "https://www.okiden.co.jp/denki2/juyo_10_20220915.csv"
