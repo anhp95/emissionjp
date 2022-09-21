@@ -1,3 +1,4 @@
+#%%
 import os
 import glob
 
@@ -22,3 +23,7 @@ FIG2_GEOJSON = os.path.join(ZERO_EMS_GEOJSON, "zero_ems_fig2.json")
 FIG3_GEOJSON = os.path.join(ZERO_EMS_GEOJSON, "zero_ems_fig3.json")
 FIG4_GEOJSON = os.path.join(ZERO_EMS_GEOJSON, "zero_ems_fig4.json")
 FIG5_GEOJSON = os.path.join(ZERO_EMS_GEOJSON, "zero_ems_fig5.json")
+
+LIST_E_FILE = glob.glob(os.path.join(DATA_DIR, "electricity", "*.csv"))
+
+# %%

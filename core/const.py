@@ -1,4 +1,6 @@
 #%%
+from datetime import date
+
 SHEET_NAME = "①　シナリオ入力、算定結果、グラフ等"
 
 XLS_COMMUNE_CODE = [i for i in range(15, 1757)]
@@ -76,13 +78,33 @@ T5_COLS = [
     "local_production_local_consumption/total_energy_consumption",
 ]
 
-hokkaido_url = "https://denkiyoho.hepco.co.jp/area/data/juyo_01_20220915.csv"  # https://denkiyoho.hepco.co.jp/
-tohoku_url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_20200913.csv"
-tokyo_url = "https://www.tepco.co.jp/forecast/html/images/juyo-d1-j.csv"
-chubu_url = "https://powergrid.chuden.co.jp/denki_yoho_content_data/juyo_cepco003.csv"  # https://powergrid.chuden.co.jp/denkiyoho/
-hokuriku_url = "https://www.rikuden.co.jp/nw/denki-yoho/csv/juyo_05_20220915.csv"
-kansai_url = "https://www.kansai-td.co.jp/yamasou/juyo1_kansai.csv"
-chugoku_url = "https://www.energia.co.jp/nw/jukyuu/csv.html"
-shikoku_url = "https://www.yonden.co.jp/nw/denkiyoho/juyo_shikoku.csv"
-kyushu_url = "https://www.kyuden.co.jp/td_power_usages/csv/juyo-hourly-20220915.csv"
-okinawa_url = "https://www.okiden.co.jp/denki2/juyo_10_20220915.csv"
+
+def get_today_str():
+    return str(date.today()).replace("-", "")
+
+
+TODAY = get_today_str()
+HOKKAIDO_URL = f"https://denkiyoho.hepco.co.jp/area/data/juyo_01_{TODAY}.csv"  # https://denkiyoho.hepco.co.jp/
+TOHOKU_URL = f"https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_{TODAY}.csv"
+TOKYO_URL = "https://www.tepco.co.jp/forecast/html/images/juyo-d1-j.csv"
+CHUBU_URL = "https://powergrid.chuden.co.jp/denki_yoho_content_data/juyo_cepco003.csv"  # https://powergrid.chuden.co.jp/denkiyoho/
+HOKURIKU = f"https://www.rikuden.co.jp/nw/denki-yoho/csv/juyo_05_{TODAY}.csv"
+KANSAI_URL = "https://www.kansai-td.co.jp/yamasou/juyo1_kansai.csv"
+CHUGOKU_URL = f"https://www.energia.co.jp/nw/jukyuu/sys/juyo_07_{TODAY}.csv"
+SHIKOKU_URL = "https://www.yonden.co.jp/nw/denkiyoho/juyo_shikoku.csv"
+KYUSHU_URL = f"https://www.kyuden.co.jp/td_power_usages/csv/juyo-hourly-{TODAY}.csv"
+OKINAWA_URL = f"https://www.okiden.co.jp/denki2/juyo_10_{TODAY}.csv"
+
+DICT_E_URL = {
+    "hokkaido": HOKKAIDO_URL,
+    "tohoku": TOHOKU_URL,
+    "tokyo": TOKYO_URL,
+    "chubu": CHUBU_URL,
+    "hokuriku": HOKURIKU,
+    "kansai": KANSAI_URL,
+    "chugoku": CHUGOKU_URL,
+    "shikoku": SHIKOKU_URL,
+    "kyushu": KYUSHU_URL,
+    "okinawa": OKINAWA_URL,
+}
+# %%

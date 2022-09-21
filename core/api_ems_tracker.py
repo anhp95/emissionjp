@@ -3,10 +3,14 @@
 import pandas as pd
 import os
 import json
+from core.mypath import DATA_DIR
 from core.utils import (
     trans_cols,
     merge_geo_emission_by_adm,
+    update_e_file,
+    get_e_realtime,
 )
+from core.const import *
 
 
 def emission_adm_filter(**kwargs):
@@ -53,6 +57,19 @@ def agg_by_pref(ems_file):
     # df.sort_values('2')
 
     return pref_df
+
+
+def get_e_5mins():
+
+    update_e_file()
+    result = {}
+    for comp_name in DICT_E_URL:
+        file_name = os.path.join(DATA_DIR, "electricity", f"{comp_name}.csv")
+        _, m5_a = get_e_realtime(file_name)
+        result[comp_name] = m5_a.to_dict(orient="records")
+
+    encoded_unicode = json.dumps(result, ensure_ascii=False)
+    return json.loads(encoded_unicode)
 
 
 # %%

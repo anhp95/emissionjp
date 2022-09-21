@@ -3,16 +3,13 @@ import pandas as pd
 import geopandas as gpd
 import os
 import numpy as np
+import csv
+import wget
 
-# from mypath import EMS_TRACKER_DIR, EMS_TRACKER_FILES, AMD2_SHP
+# from mypath import *
 # from const import *
 
-from core.mypath import (
-    EMS_TRACKER_DIR,
-    EMS_TRACKER_FILES,
-    AMD2_SHP,
-)
-
+from core.mypath import *
 from core.const import *
 
 DETAIL_SECTOR = [
@@ -117,24 +114,6 @@ def merge_geo_emission_by_adm(**kwargs):
                 d[l[i]] = 0
         return l
 
-    # list_cols = [
-    #     ADM_CODE,
-    #     "agriculture",
-    #     "building",
-    #     "business",
-    #     "construction_mining",
-    #     "consumer_total",
-    #     "freight_car",
-    #     "industry_total",
-    #     "manufacture",
-    #     "passenger_car",
-    #     "railway",
-    #     "ship",
-    #     "transportation_total",
-    #     "waste",
-    #     "total",
-    # ]
-
     year = kwargs["year"]
     ems_file = os.path.join(EMS_TRACKER_DIR, f"{year}.csv")
     ems_df = pd.read_csv(ems_file)
@@ -226,8 +205,40 @@ def trans_cols(df):
     return df
 
 
-# if __name__ == "__main__":
-#     df = merge_geo_emission()
+def drop_nan(df):
+
+    for col in df.columns:
+        df = df.dropna(subset=[col])
+
+    return df
+
+
+def update_e_file():
+    for name in DICT_E_URL.keys():
+        file_name = os.path.join(DATA_DIR, "electricity", f"{name}.csv")
+        if os.path.exists(file_name):
+            os.remove(file_name)
+        wget.download(DICT_E_URL[name], out=file_name)
+
+
+def get_e_realtime(csv_path):
+
+    hours = 24
+    min5s = 60 / 5 * 24
+    encoding = "shift_jis"
+
+    row_indexes = []
+    with open(csv_path) as file_obj:
+        reader_obj = csv.reader(file_obj)
+        for i, row in enumerate(reader_obj):
+            if len(row) > 0 and row[0] == "DATE":
+                row_indexes.append(i)
+
+    h_p = pd.read_csv(csv_path, skiprows=row_indexes[0], nrows=hours, encoding=encoding)
+    m5_a = pd.read_csv(
+        csv_path, skiprows=row_indexes[1], nrows=min5s, encoding=encoding
+    )
+    return h_p, m5_a
 
 
 # %%

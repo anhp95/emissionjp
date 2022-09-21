@@ -222,11 +222,4 @@ def gen_geo_zero_ems():
     )
 
 
-def filter_by_scenario_type(
-    scenario_type, overall_df, fig1_df, fig2_df, fig3_df, fig4_df, fig5_df
-):
-
-    pass
-
-
 # %%
