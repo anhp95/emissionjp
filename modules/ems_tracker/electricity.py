@@ -1,6 +1,6 @@
 #%%
 from flask_restx import Namespace, Resource
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 
 from core.api_ems_tracker import get_e_5mins
 
@@ -19,7 +19,8 @@ class OverallEmsAtMunicipality(Resource):
         year="Electricity Generation and Consumption per each 5 minutes"
     )
     def get(self):
-        return get_e_5mins()
+        result = get_e_5mins()
+        return result
 
 
 # %%

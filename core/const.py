@@ -96,15 +96,15 @@ KYUSHU_URL = f"https://www.kyuden.co.jp/td_power_usages/csv/juyo-hourly-{TODAY}.
 OKINAWA_URL = f"https://www.okiden.co.jp/denki2/juyo_10_{TODAY}.csv"
 
 DICT_E_URL = {
-    "hokkaido": HOKKAIDO_URL,
-    "tohoku": TOHOKU_URL,
-    "tokyo": TOKYO_URL,
-    "chubu": CHUBU_URL,
-    "hokuriku": HOKURIKU,
-    "kansai": KANSAI_URL,
-    "chugoku": CHUGOKU_URL,
-    "shikoku": SHIKOKU_URL,
-    "kyushu": KYUSHU_URL,
-    "okinawa": OKINAWA_URL,
+    "Hokkaido": HOKKAIDO_URL,
+    "Tohoku": TOHOKU_URL,
+    "Tokyo": TOKYO_URL,
+    "Chubu": CHUBU_URL,
+    "Hokuriku": HOKURIKU,
+    "Kansai": KANSAI_URL,
+    "Chugoku": CHUGOKU_URL,
+    "Shikoku": SHIKOKU_URL,
+    "Kyushu": KYUSHU_URL,
+    "Okinawa": OKINAWA_URL,
 }
 # %%

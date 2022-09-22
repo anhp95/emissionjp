@@ -3,6 +3,8 @@
 import pandas as pd
 import os
 import json
+import simplejson
+
 from core.mypath import DATA_DIR
 from core.utils import (
     trans_cols,
@@ -62,14 +64,31 @@ def agg_by_pref(ems_file):
 def get_e_5mins():
 
     update_e_file()
+
     result = {}
-    for comp_name in DICT_E_URL:
+    for comp_name in DICT_E_URL.keys():
         file_name = os.path.join(DATA_DIR, "electricity", f"{comp_name}.csv")
         _, m5_a = get_e_realtime(file_name)
+        if comp_name == "Tohoku":
+            cols = [
+                "DATE",
+                "TIME",
+                "Actual Usage",
+                "Solar Power Generation",
+                "Wind Power Generation",
+            ]
+        elif comp_name == "Tokyo":
+            cols = [
+                "DATE",
+                "TIME",
+                "Actual Usage",
+                "Solar Power Generation",
+                "Solar Power Generation (Per Consumption))",
+            ]
+        else:
+            cols = ["DATE", "TIME", "Actual Usage", "Solar Power Generation"]
+        m5_a.columns = cols
         result[comp_name] = m5_a.to_dict(orient="records")
 
-    encoded_unicode = json.dumps(result, ensure_ascii=False)
+    encoded_unicode = simplejson.dumps(result, ignore_nan=True)
     return json.loads(encoded_unicode)
-
-
-# %%
