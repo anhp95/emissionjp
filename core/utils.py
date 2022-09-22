@@ -228,7 +228,7 @@ def get_e_realtime(csv_path):
     encoding = "shift_jis"
 
     row_indexes = []
-    with open(csv_path) as file_obj:
+    with open(csv_path, encoding=encoding) as file_obj:
         reader_obj = csv.reader(file_obj)
         for i, row in enumerate(reader_obj):
             if len(row) > 0 and row[0] == "DATE":
