@@ -4,6 +4,7 @@ import pandas as pd
 import os
 import json
 import simplejson
+import numpy as np
 
 from core.mypath import DATA_DIR
 from core.utils import (
@@ -68,9 +69,9 @@ def get_e_5mins():
     result = {}
     for comp_name in DICT_E_URL.keys():
         file_name = os.path.join(DATA_DIR, "electricity", f"{comp_name}.csv")
-        _, m5_a = get_e_realtime(file_name)
+        h_p, m5_a = get_e_realtime(file_name)
         if comp_name == "Tohoku":
-            cols = [
+            m5_cols = [
                 "DATE",
                 "TIME",
                 "Actual Usage",
@@ -78,16 +79,47 @@ def get_e_5mins():
                 "Wind Power Generation",
             ]
         elif comp_name == "Tokyo":
-            cols = [
+            m5_cols = [
                 "DATE",
                 "TIME",
                 "Actual Usage",
                 "Solar Power Generation",
-                "Solar Power Generation (Per Consumption)",
+                "Solar Power Consumption",
             ]
         else:
-            cols = ["DATE", "TIME", "Actual Usage", "Solar Power Generation"]
-        m5_a.columns = cols
+            m5_cols = ["DATE", "TIME", "Actual Usage", "Solar Power Generation"]
+
+        if comp_name == "Kyushu":
+            h_cols = [
+                "DATE",
+                "TIME",
+                "Actual Usage (10MW)",
+                "Forecast (10MW)",
+                "Usage rate (%)",
+                "Reserve rate (%)",
+                "Estimated supply capacity (10MW)",
+            ]
+        else:
+            h_cols = [
+                "DATE",
+                "TIME",
+                "Actual Usage (10MW)",
+                "Forecast (10MW)",
+                "Usage rate (%)",
+                "Estimated supply capacity (10MW)",
+            ]
+
+        h_p.columns = h_cols
+        m5_a.columns = m5_cols
+
+        m5_h_df = pd.DataFrame(np.repeat(h_p.values, 12, axis=0), columns=h_p.columns)
+
+        # m5_a["Actual Usage (10MW)"] = m5_h_df["Actual Usage (10MW)"].values
+        m5_a["Forecast (10MW)"] = m5_h_df["Forecast (10MW)"].values
+        m5_a["Estimated supply capacity (10MW)"] = m5_h_df[
+            "Estimated supply capacity (10MW)"
+        ].values
+
         result[comp_name] = m5_a.to_dict(orient="records")
 
     encoded_unicode = simplejson.dumps(result, ignore_nan=True)
