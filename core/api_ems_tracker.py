@@ -83,7 +83,7 @@ def get_e_5mins():
                 "TIME",
                 "Actual Usage",
                 "Solar Power Generation",
-                "Solar Power Generation (Per Consumption))",
+                "Solar Power Generation (Per Consumption)",
             ]
         else:
             cols = ["DATE", "TIME", "Actual Usage", "Solar Power Generation"]
