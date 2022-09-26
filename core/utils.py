@@ -238,7 +238,9 @@ def get_e_realtime(csv_path):
     m5_a = pd.read_csv(
         csv_path, skiprows=row_indexes[1], nrows=min5s, encoding=encoding
     )
-    return h_p, m5_a
+    rt_date = m5_a.DATE.unique()[0]
+    rt_hour = m5_a.dropna().TIME.values[-1]
+    return h_p, m5_a, rt_date, rt_hour
 
 
 # %%

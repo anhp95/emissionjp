@@ -68,8 +68,11 @@ def get_e_5mins():
 
     result = {}
     for comp_name in DICT_E_URL.keys():
+        result[comp_name] = {}
+
         file_name = os.path.join(DATA_DIR, "electricity", f"{comp_name}.csv")
-        h_p, m5_a = get_e_realtime(file_name)
+        h_p, m5_a, rt_date, rt_hour = get_e_realtime(file_name)
+
         if comp_name == "Tohoku":
             m5_cols = [
                 "DATE",
@@ -120,7 +123,9 @@ def get_e_5mins():
             "Estimated supply capacity (10MW)"
         ].values
 
-        result[comp_name] = m5_a.to_dict(orient="records")
+        result[comp_name]["date"] = rt_date
+        result[comp_name]["hour"] = rt_hour
+        result[comp_name]["data"] = m5_a.to_dict(orient="records")
 
     encoded_unicode = simplejson.dumps(result, ignore_nan=True)
     return json.loads(encoded_unicode)
