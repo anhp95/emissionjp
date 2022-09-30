@@ -5,6 +5,7 @@ import os
 import numpy as np
 import csv
 import wget
+import shutil
 
 # from mypath import *
 # from const import *
@@ -214,10 +215,13 @@ def drop_nan(df):
 
 
 def update_e_file():
+    electricity_dir = os.path.join(DATA_DIR, "electricity")
+    shutil.rmtree(electricity_dir)
+    os.mkdir(electricity_dir)
     for name in DICT_E_URL.keys():
         file_name = os.path.join(DATA_DIR, "electricity", f"{name}.csv")
         if os.path.exists(file_name):
-            os.remove(file_name)
+            os.unlink(file_name)
         wget.download(DICT_E_URL[name], out=file_name)
 
 
