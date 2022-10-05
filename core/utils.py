@@ -6,6 +6,7 @@ import numpy as np
 import csv
 import wget
 import shutil
+import urllib
 
 # from mypath import *
 # from const import *
@@ -215,6 +216,9 @@ def drop_nan(df):
 
 
 def update_e_file():
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+    }
     electricity_dir = os.path.join(DATA_DIR, "electricity")
     shutil.rmtree(electricity_dir)
     os.mkdir(electricity_dir)
@@ -222,7 +226,12 @@ def update_e_file():
         file_name = os.path.join(DATA_DIR, "electricity", f"{name}.csv")
         if os.path.exists(file_name):
             os.unlink(file_name)
-        wget.download(DICT_E_URL[name], out=file_name)
+        # wget.download(DICT_E_URL[name], out=file_name)
+        
+        req = urllib.request.Request(DICT_E_URL[name], headers=headers)
+        res = urllib.request.urlopen(req)
+        with open(file_name, "wb") as f:
+            f.write(res.read())
 
 
 def get_e_realtime(csv_path):

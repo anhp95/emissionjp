@@ -67,10 +67,11 @@ def get_e_5mins():
     update_e_file()
 
     result = {}
-    for comp_name in DICT_E_URL.keys():
+    for name in DICT_E_URL.keys():
+        comp_name = name.split("_")[0]
         result[comp_name] = {}
 
-        file_name = os.path.join(DATA_DIR, "electricity", f"{comp_name}.csv")
+        file_name = os.path.join(DATA_DIR, "electricity", f"{name}.csv")
         h_p, m5_a, rt_date, rt_hour = get_e_realtime(file_name)
 
         if comp_name == "Tohoku":
